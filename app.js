@@ -2,12 +2,14 @@ var express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 // route files
 var routes = require('./routes/index');
 
 // init app
 var app = express();
+app.use(cors());
 
 // view engine
 app.set('view engine', 'ejs');

@@ -33,6 +33,7 @@ Trade.trade = function(trade) {
 
         var price = snapshot.ask;
 
+        console.log(price, quantity, symbol, trader_id, type);
         DB.buy(price, quantity, symbol, trader_id, type);
       });
     }
@@ -47,6 +48,7 @@ Trade.trade = function(trade) {
 
         var price = snapshot.ask;
 
+        console.log(price, quantity, symbol, trader_id, type);
         DB.sell(price, quantity, symbol, trader_id, type);
       });
     }
