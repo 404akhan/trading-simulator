@@ -40,4 +40,15 @@ router.get('/data/:id', function(req, res, next) {
   });
 });
 
+router.get('/data', function(req, res, next) {
+
+  var cluster_id = "6A010E44-FBA8-C339-B6B6-060F769E8039";
+
+  DB.getCluster(cluster_id).then(data => {
+    res.json(data);
+  }, err => {
+    res.json(err);
+  });
+});
+
 module.exports = router;

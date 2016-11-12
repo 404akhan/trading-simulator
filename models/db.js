@@ -195,5 +195,25 @@ DB.getData = function(id) {
   });
 };
 
+DB.getCluster = function(cluster_id) {
+  return new Promise((resolve, reject) => {
+
+    var arr_send = [];
+
+    pulls.get(cluster_id, function(err, doc_pull) {
+      if (err)
+        reject(err);
+      else {
+        for (var i = 0; i < doc_pull.traders.length; i++) {
+
+          arr_send.push(doc_pull.traders[i].id);
+        }
+
+        resolve(arr_send);
+      }
+    });
+  });
+};
+
 
 module.exports = DB;
