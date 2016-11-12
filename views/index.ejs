@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trade</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+<h1>Trading Game Never Ends</h1>
+
+<div class="col-md-4">
+    <form method="post" action="/trade">
+
+        <div class="form-group">
+            <label>Stock Symbol</label>
+            <input type="text" class="form-control" name="stock_symbol" placeholder="Stock Symbol">
+        </div>
+        <div class="form-group">
+            <label>Transaction</label>
+            <select name="transaction" class="form-control">
+                <option value="buy">Buy</option>
+                <option value="sell">Sell</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Quantity</label>
+            <input type="text" class="form-control" name="quantity" placeholder="Quantity">
+        </div>
+
+        <div class="form-group">
+            <input type="radio" name="type" value="market" checked>Market<br>
+            <input type="radio" name="type" value="limit">Limit
+            <input type="text" class="form-control" name="limit_price" placeholder="Limit Price">
+        </div>
+        <br>
+
+        <div class="form-group">
+            <input type="checkbox" name="conf" value="conf">Send Confirmation Email/Message <br>
+        </div>
+
+        <button type="submit" class="btn btn-default">Trade</button>
+    </form>
+</div>
+
+</body>
+</html>
