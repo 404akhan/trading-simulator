@@ -37,7 +37,7 @@ DB.buy = function(price, quantity, symbol, trader_id, type) {
 
           if(doc.stocks[i].stock_symbol === symbol && doc.stocks[i].trader_id === trader_id) {
 
-            doc.stocks[i].quantity = parseInt(doc.stocks[i].quantity) + quantity;
+            doc.stocks[i].quantity = (parseInt(doc.stocks[i].quantity) + quantity).toString();
             change = true;
             break;
           }
@@ -94,7 +94,7 @@ console.log('here1');
           if(doc_pull.stocks[i].quantity >= quantity) {
             console.log('here2');
 
-            doc_pull.stocks[i].quantity = parseInt(doc_pull.stocks[i].quantity) - quantity;
+            doc_pull.stocks[i].quantity = (parseInt(doc_pull.stocks[i].quantity) - quantity).toString();
 
 
             var total_cash = 0;
