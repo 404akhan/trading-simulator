@@ -185,9 +185,9 @@ DB.getData = function(id) {
                   stock_symbol: doc_pull.stocks[i].stock_symbol,
                   quantity: doc_pull.stocks[i].quantity
                 });
-                resolve(obj_send)
               }
             }
+            resolve(obj_send);
           }
         });
       }
