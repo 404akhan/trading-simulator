@@ -4,20 +4,35 @@ var db2 = new PouchDB('pulls');
 
 
 /*************** create ***************/
-// db.put({
-//   "name": "John",
-//   "money": 2000000,
-//   "cur_pull_id": "6A010E44-FBA8-C339-B6B6-060F769E8039",
-//   "cur_pull_money": 300000,
-//   "pulls": ["6A010E44-FBA8-C339-B6B6-060F769E8039"],
-//   "history": [],
-//   "_id": "FECD9ADA-F131-1D0D-8DCC-3F7CABDDD210",
-//   "_rev": "2-f20bf0e275682764c484a45de9f05a64",
-// }, function(err, response) {
-//   if (err) { return console.log(err); }
-//   // handle response
-//   console.log(response);
-// });
+function addTrader() {
+  db.post({
+    "name": "Akhan",
+    "money": 5000000,
+    "cur_pull_id": "6A010E44-FBA8-C339-B6B6-060F769E8039",
+    "cur_pull_money": 500000,
+    "pulls": ["6A010E44-FBA8-C339-B6B6-060F769E8039"],
+    "history": []
+  }, function (err, response) {
+    if (err) {
+      return console.log(err);
+    }
+    // handle response
+    db2.get("6A010E44-FBA8-C339-B6B6-060F769E8039", function(err, doc) {
+
+      doc.traders.push({
+        "init_cash": 5000000,
+        "cur_cash": 5000000,
+        id: response.id
+      });
+
+      db2.put(doc, function(err, response) {
+        if (err) { return console.log(err); }
+      });
+    });
+  });
+};
+
+// addTrader();
 //
 // db2.post({
 //   traders: [
@@ -90,9 +105,9 @@ var db2 = new PouchDB('pulls');
 
 // db.replicate.to('http://example.com/mydb');
 
-// db2.get('50A0CCE4-5D07-E85C-B266-1B28F4EFB3B0', function(err, doc) {
+// db.get('E69EA752-4C19-8866-B5AC-12CE40BAAB33', function(err, doc) {
 //   if (err) { return console.log(err); }
-//   db2.remove(doc, function(err, response) {
+//   db.remove(doc, function(err, response) {
 //     if (err) { return console.log(err); }
 //     // handle response
 //   });

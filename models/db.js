@@ -161,10 +161,18 @@ DB.getData = function(id) {
         reject(err);
       else {
         // console.log(doc_trader);
+        obj_send.name = doc_trader.name;
         obj_send.total_money = doc_trader.money;
         obj_send.cur_cluster_money = doc_trader.cur_pull_money;
         obj_send.cur_cluster_init_money = 0;
+        obj_send.cur_cluster_gain_money = 0;
         obj_send.cur_cluster_stocks = [];
+
+        for(var i = 0; i < doc_trader.history.length; i++) {
+
+          if(typeof(doc_trader.history[i].added_pull_money) !== 'undefined')
+            obj_send.cur_cluster_gain_money += doc_trader.history[i].added_pull_money;
+        }
 
         pulls.get(doc_trader.cur_pull_id, function(err, doc_pull) {
           if (err)
@@ -198,7 +206,10 @@ DB.getData = function(id) {
 DB.getCluster = function(cluster_id) {
   return new Promise((resolve, reject) => {
 
-    var arr_send = [];
+    var ojb_send = {
+      traders: [],
+      stocks: []
+    };
 
     pulls.get(cluster_id, function(err, doc_pull) {
       if (err)
@@ -206,10 +217,12 @@ DB.getCluster = function(cluster_id) {
       else {
         for (var i = 0; i < doc_pull.traders.length; i++) {
 
-          arr_send.push(doc_pull.traders[i].id);
+          ojb_send.traders.push(doc_pull.traders[i].id);
         }
 
-        resolve(arr_send);
+        ojb_send.stocks = doc_pull.stocks;
+
+        resolve(ojb_send);
       }
     });
   });
