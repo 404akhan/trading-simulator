@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Trades = require('../models/trades');
+var DB = require('../models/db');
 
 router.get('/', function(req, res, next) {
 
@@ -32,9 +33,11 @@ router.get('/data/:id', function(req, res, next) {
 
   var trader_id = 'FECD9ADA-F131-1D0D-8DCC-3F7CABDDD210';
 
-  var data = Trades.getData(trader_id);
-
-  res.json(data);
+  DB.getData(trader_id).then(data => {
+    res.json(data);
+  }, err => {
+    res.json(err);
+  });
 });
 
 module.exports = router;

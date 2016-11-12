@@ -55,13 +55,5 @@ Trade.trade = function(trade) {
   }
 };
 
-Trade.getData = function(id) {
-
-  return DB.getData(id).then(data => {
-    console.log(data);
-  }, err => {
-    console.log(err)
-  })
-};
 
 module.exports = Trade;
