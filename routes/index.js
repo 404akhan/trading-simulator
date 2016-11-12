@@ -28,4 +28,13 @@ router.post('/trade', function(req, res, next) {
   res.sendStatus(200);
 });
 
+router.get('/data/:id', function(req, res, next) {
+
+  var trader_id = 'FECD9ADA-F131-1D0D-8DCC-3F7CABDDD210';
+
+  var data = Trades.getData(trader_id);
+
+  res.json(data);
+});
+
 module.exports = router;

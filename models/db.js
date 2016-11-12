@@ -151,4 +151,49 @@ DB.sell = function(price, quantity, symbol, trader_id, type) {
   });
 };
 
+DB.getData = function(id) {
+  return new Promise((resolve, reject) => {
+    var obj_send = {};
+    // console.log(id);
+
+    traders.get(id, function(err, doc_trader) {
+      if (err)
+        reject(err);
+      else {
+        // console.log(doc_trader);
+        obj_send.total_money = doc_trader.money;
+        obj_send.cur_cluster_money = doc_trader.cur_pull_money;
+        obj_send.cur_cluster_init_money = 0;
+        obj_send.cur_cluster_stocks = [];
+
+        pulls.get(doc_trader.cur_pull_id, function(err, doc_pull) {
+          if (err)
+            reject(err);
+          else {
+            for (var i = 0; i < doc_pull.traders.length; i++) {
+
+              if(doc_pull.traders[i].id === id) {
+
+                obj_send.cur_cluster_init_money = doc_pull.traders[i].init_cash;
+              }
+            }
+            for (var i = 0; i < doc_pull.stocks.length; i++) {
+
+              if (doc_pull.stocks[i].trader_id === id) {
+
+                obj_send.cur_cluster_stocks.push({
+                  stock_symbol: doc_pull.stocks[i].stock_symbol,
+                  quantity: doc_pull.stocks[i].quantity
+                });
+                resolve(obj_send)
+              }
+            }
+          }
+        });
+      }
+      });
+  });
+};
+
+
 module.exports = DB;

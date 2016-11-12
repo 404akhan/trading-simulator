@@ -33,7 +33,7 @@ Trade.trade = function(trade) {
 
         var price = snapshot.ask;
 
-        console.log(price, quantity, symbol, trader_id, type);
+        console.log(price, quantity, symbol, trader_id, type, trade.transaction);
         DB.buy(price, quantity, symbol, trader_id, type);
       });
     }
@@ -48,11 +48,20 @@ Trade.trade = function(trade) {
 
         var price = snapshot.ask;
 
-        console.log(price, quantity, symbol, trader_id, type);
+        console.log(price, quantity, symbol, trader_id, type, trade.transaction);
         DB.sell(price, quantity, symbol, trader_id, type);
       });
     }
   }
+};
+
+Trade.getData = function(id) {
+
+  return DB.getData(id).then(data => {
+    console.log(data);
+  }, err => {
+    console.log(err)
+  })
 };
 
 module.exports = Trade;
