@@ -25,7 +25,7 @@ router.post('/trade', function(req, res, next) {
 
   Trades.trade(trade);
 
-  res.send(200);
+  res.sendStatus(200);
 });
 
 module.exports = router;
