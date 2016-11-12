@@ -25,7 +25,7 @@ router.post('/trade', function(req, res, next) {
 
   Trades.trade(trade);
 
-  res.redirect('/');
+  res.send(200);
 });
 
 module.exports = router;
