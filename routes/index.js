@@ -31,7 +31,7 @@ router.post('/trade', function(req, res, next) {
 
 router.get('/data/:id', function(req, res, next) {
 
-  var trader_id = 'FECD9ADA-F131-1D0D-8DCC-3F7CABDDD210';
+  var trader_id = req.params.id;
 
   DB.getData(trader_id).then(data => {
     res.json(data);
