@@ -123,7 +123,11 @@ DB.sell = function(price, quantity, symbol, trader_id, type) {
 
                 var add = total_share * doc_pull.traders[index2].init_cash / total_cash;
 
-                (function(trader_id, add_money){
+                (function(index2, add_money){
+
+                  var trader_id = doc_pull.traders[index2].id;
+
+                  console.log(trader_id);
 
                   traders.get(trader_id, function(err, doc_trader_local) {
                     if (err) { return console.log(err); }
@@ -139,7 +143,7 @@ DB.sell = function(price, quantity, symbol, trader_id, type) {
                       if (err) { return console.log(err); }
                     });
                   });
-                })(doc_pull.traders[index2].id, add);
+                })(index2, add);
               }
             }
           }

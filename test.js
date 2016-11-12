@@ -5,7 +5,7 @@ var db2 = new PouchDB('pulls');
 
 /*************** create ***************/
 function addTrader() {
-  db.post({
+  db.put({
     "name": "Akhan",
     "money": 5000000,
     "cur_pull_id": "6A010E44-FBA8-C339-B6B6-060F769E8039",
@@ -33,6 +33,25 @@ function addTrader() {
 };
 
 // addTrader();
+
+// db2.get("6A010E44-FBA8-C339-B6B6-060F769E8039", function(err, doc) {
+//
+//   var arr = [];
+//   for(var i = 0; i < doc.traders.length; i++) {
+//
+//     if(doc.traders[i].id !== '24C73840-2DDA-E20A-898B-29EEEC7FCC94') {
+//
+//       arr.push(doc.traders[i]);
+//     }
+//   }
+//
+//   doc.traders = arr;
+//
+//   db2.put(doc, function(err, response) {
+//     if (err) { return console.log(err); }
+//   });
+// });
+
 //
 // db2.post({
 //   traders: [
