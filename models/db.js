@@ -37,7 +37,7 @@ DB.buy = function(price, quantity, symbol, trader_id, type) {
 
           if(doc.stocks[i].stock_symbol === symbol && doc.stocks[i].trader_id === trader_id) {
 
-            doc.stocks[i].quantity = (parseInt(doc.stocks[i].quantity) + quantity).toString();
+            doc.stocks[i].quantity += quantity;
             change = true;
             break;
           }
@@ -87,60 +87,63 @@ DB.sell = function(price, quantity, symbol, trader_id, type) {
     pulls.get(pull_id, function(err, doc_pull) {
       if (err) { return console.log(err); }
 
-      for(var i = 0; i < doc_pull.stocks.length; i++) {
+      for(var index = 0; index < doc_pull.stocks.length; index++) {
 
-        if(doc_pull.stocks[i].stock_symbol === symbol && doc_pull.stocks[i].trader_id === trader_id) {
-console.log('here1');
-          if(doc_pull.stocks[i].quantity >= quantity) {
-            console.log('here2');
+        (function(i){
 
-            doc_pull.stocks[i].quantity = (parseInt(doc_pull.stocks[i].quantity) - quantity).toString();
+          if(doc_pull.stocks[i].stock_symbol === symbol && doc_pull.stocks[i].trader_id === trader_id) {
+            console.log('here1');
+            if(doc_pull.stocks[i].quantity >= quantity) {
+              console.log('here2');
+
+              doc_pull.stocks[i].quantity -= quantity
 
 
-            var total_cash = 0;
-            for(var i = 0; i < doc_pull.traders.length; i++) {
+              var total_cash = 0;
+              for(var i = 0; i < doc_pull.traders.length; i++) {
 
-              total_cash += doc_pull.traders[i].init_cash;
-            }
+                total_cash += doc_pull.traders[i].init_cash;
+              }
 
-            doc_pull.history.push({
-              'stock_symbol': symbol,
-              'transaction': 'sell',
-              'type': type,
-              'price': price,
-              'quantity': quantity,
-              'trader_id': trader_id
-            });
+              doc_pull.history.push({
+                'stock_symbol': symbol,
+                'transaction': 'sell',
+                'type': type,
+                'price': price,
+                'quantity': quantity,
+                'trader_id': trader_id
+              });
 
-            pulls.put(doc_pull, function(err, response) {
-              if (err) { return console.log(err); }
-            });
+              pulls.put(doc_pull, function(err, response) {
+                if (err) { return console.log(err); }
+              });
 
-            var total_share = price * quantity;
-            for(var i = 0; i < doc_pull.traders.length; i++) {
+              var total_share = price * quantity;
+              for(var index2 = 0; index2 < doc_pull.traders.length; index2++) {
 
-              var add = total_share * doc_pull.traders[i].init_cash / total_cash;
+                var add = total_share * doc_pull.traders[index2].init_cash / total_cash;
 
-              (function(trader_id, add_money){
+                (function(trader_id, add_money){
 
-                traders.get(trader_id, function(err, doc_trader_local) {
-                  if (err) { return console.log(err); }
-
-                  doc_trader_local.money += add_money;
-
-                  doc_trader_local.history.push({
-                    added_pull_money: add_money,
-                    added_pull_id: pull_id
-                  });
-
-                  traders.put(doc_trader_local, function(err, response) {
+                  traders.get(trader_id, function(err, doc_trader_local) {
                     if (err) { return console.log(err); }
+
+                    doc_trader_local.money += add_money;
+
+                    doc_trader_local.history.push({
+                      added_pull_money: add_money,
+                      added_pull_id: pull_id
+                    });
+
+                    traders.put(doc_trader_local, function(err, response) {
+                      if (err) { return console.log(err); }
+                    });
                   });
-                });
-              })(doc_pull.traders[i].id, add);
+                })(doc_pull.traders[index2].id, add);
+              }
             }
           }
-        }
+        })(index);
       }
 
       return; // error

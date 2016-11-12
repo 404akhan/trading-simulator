@@ -18,7 +18,7 @@ Trade.trade = function(trade) {
 
   var symbol = trade.stock_symbol;
   var trader_id = trade.trader_id;
-  var quantity = trade.quantity;
+  var quantity = parseInt(trade.quantity);
   var type = trade.type;
 
   if(trade.type === 'market') {
